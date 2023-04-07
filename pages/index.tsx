@@ -33,7 +33,7 @@ export default function BreakingNewsPage({newsArticles}: BreakingNewsPageProps) 
     </Head>
       <main>
         <h1>Breaking News</h1>
-        <Alert>hello one two three</Alert>
+        <Alert>All the news collected via API.</Alert>
         <NewsArticleGrid articles={newsArticles}/>
       </main>
     </>
