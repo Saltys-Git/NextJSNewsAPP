@@ -8,6 +8,7 @@ import { title } from 'process'
 import NewsArticleEntry from '@/components/NewsArticleEntry'
 import NewsArticleGrid from '@/components/NewsArticleGrid'
 import { Alert } from 'react-bootstrap'
+import PrintButton from '@/components/PrintButton'
 
 interface BreakingNewsPageProps{
   newsArticles: NewsArticle[],
@@ -23,6 +24,7 @@ export const getServerSideProps: GetServerSideProps<BreakingNewsPageProps> =asyn
 
 const inter = Inter({ subsets: ['latin'] })
 
+
 export default function BreakingNewsPage({newsArticles}: BreakingNewsPageProps) {
   return (
     <>
@@ -33,6 +35,7 @@ export default function BreakingNewsPage({newsArticles}: BreakingNewsPageProps) 
     </Head>
       <main>
         <h1>Breaking News</h1>
+        <PrintButton/>
         <Alert>All the news collected via API.</Alert>
         <NewsArticleGrid articles={newsArticles}/>
       </main>
