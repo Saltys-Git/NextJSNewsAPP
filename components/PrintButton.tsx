@@ -30,12 +30,7 @@ function PrintButton() {
             .size(1, 1)
             .text('Test Page\n\n')
             .barcode('1234567', 'EAN8')
-            .table(["One", "Two", "Three"])
-            .tableCustom([
-                { text:"Left", align:"LEFT", width:0.33, style: 'B' },
-                { text:"Center", align:"CENTER", width:0.33},
-                { text:"Right", align:"RIGHT", width:0.33 }],
-              { encoding: 'cp857', size: [1, 1] });
+            .table(["One", "Two", "Three"]);
 
         // Print plain text content
         // printerDevice.text(text);
