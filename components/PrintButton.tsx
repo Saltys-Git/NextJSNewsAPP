@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import EscPos from 'escpos';
 import HtmlToText from 'html-to-text';
+import { Printer } from 'node-thermal-printer';
+
+
 
 function PrintButton() {
   const [isPrinting, setIsPrinting] = useState(false);
@@ -9,40 +12,46 @@ function PrintButton() {
   const handlePrintClick = () => {
     setIsPrinting(true);
 
-    // Connect to the printer
-    const options = { encoding: 'GB18030' };
-    const printer = new EscPos.USB(); // Replace with your printer's vendorId and productId
-    const printerDevice = new EscPos.Printer(printer, options);
+    const printer = new Printer('EPSON', 'TM-T20II');
+    printer.alignCenter();
+    printer.println('Hello World!');
+    printer.cut();
+    printer.execute();
 
-    printer.open((error) => {
-      if (error) {
-        console.log(error);
-      } else {
-        // Convert HTML to plain text
-        // const html = '<html><head><title>Test Page</title></head><body><h1>Hello, world!</h1></body></html>';
-        // const text = HtmlToText.fromString(html);
+    // // Connect to the printer
+    // const options = { encoding: 'GB18030' };
+    // const printer = new EscPos.USB(); // Replace with your printer's vendorId and productId
+    // const printerDevice = new EscPos.Printer(printer, options);
 
-        // Set printer font size and alignment
-        printerDevice
-            .align('CT')
-            .font('A')
-            .style('BU')
-            .size(1, 1)
-            .text('Test Page\n\n')
-            .barcode('1234567', 'EAN8')
-            .table(["One", "Two", "Three"]);
+    // printer.open((error) => {
+    //   if (error) {
+    //     console.log(error);
+    //   } else {
+    //     // Convert HTML to plain text
+    //     // const html = '<html><head><title>Test Page</title></head><body><h1>Hello, world!</h1></body></html>';
+    //     // const text = HtmlToText.fromString(html);
 
-        // Print plain text content
-        // printerDevice.text(text);
+    //     // Set printer font size and alignment
+    //     printerDevice
+    //         .align('CT')
+    //         .font('A')
+    //         .style('BU')
+    //         .size(1, 1)
+    //         .text('Test Page\n\n')
+    //         .barcode('1234567', 'EAN8')
+    //         .table(["One", "Two", "Three"]);
 
-        // Cut paper and close connection
-        printerDevice
-            .cut()
-            .close();
+    //     // Print plain text content
+    //     // printerDevice.text(text);
 
-        setIsPrinting(false);
-      }
-    });
+    //     // Cut paper and close connection
+    //     printerDevice
+    //         .cut()
+    //         .close();
+
+    //     setIsPrinting(false);
+    //   }
+    // });
   };
 
   return (
