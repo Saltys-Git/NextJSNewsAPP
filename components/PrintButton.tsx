@@ -1,57 +1,49 @@
-'use client'
 import React, { useState } from 'react';
 import EscPos from 'escpos';
 import HtmlToText from 'html-to-text';
-import { Printer } from 'node-thermal-printer';
 
-
+async function findPrinter() {
+  const printers = await EscPos.USB.findPrinter();
+  return printers[0]; // Assumes there is only one Aures ODP333 printer connected to the computer
+}
 
 function PrintButton() {
   const [isPrinting, setIsPrinting] = useState(false);
 
-  const handlePrintClick = () => {
+  const handlePrintClick = async () => {
     setIsPrinting(true);
 
-    const printer = new Printer('EPSON', 'TM-T20II');
-    printer.alignCenter();
-    printer.println('Hello World!');
-    printer.cut();
-    printer.execute();
+    try {
+      // Connect to the printer
+      const options = { encoding: 'GB18030' };
+      const printer = await findPrinter();
+      const printerDevice = new EscPos.Printer(printer, { driver: EscPos.AuresODP, ...options });
 
-    // // Connect to the printer
-    // const options = { encoding: 'GB18030' };
-    // const printer = new EscPos.USB(); // Replace with your printer's vendorId and productId
-    // const printerDevice = new EscPos.Printer(printer, options);
+      // Convert HTML to plain text
+      // const html = '<html><head><title>Test Page</title></head><body><h1>Hello, world!</h1></body></html>';
+      // const text = HtmlToText.fromString(html);
 
-    // printer.open((error) => {
-    //   if (error) {
-    //     console.log(error);
-    //   } else {
-    //     // Convert HTML to plain text
-    //     // const html = '<html><head><title>Test Page</title></head><body><h1>Hello, world!</h1></body></html>';
-    //     // const text = HtmlToText.fromString(html);
+      // Set printer font size and alignment
+      printerDevice
+          .align('center')
+          .font('a')
+          .style('bu')
+          .size(1, 1)
+          .text('Test Page\n\n');
 
-    //     // Set printer font size and alignment
-    //     printerDevice
-    //         .align('CT')
-    //         .font('A')
-    //         .style('BU')
-    //         .size(1, 1)
-    //         .text('Test Page\n\n')
-    //         .barcode('1234567', 'EAN8')
-    //         .table(["One", "Two", "Three"]);
+      // Print plain text content
+      // printerDevice.text(text);
 
-    //     // Print plain text content
-    //     // printerDevice.text(text);
+      // Cut paper and close connection
+      printerDevice
+          .cut()
+          .close();
 
-    //     // Cut paper and close connection
-    //     printerDevice
-    //         .cut()
-    //         .close();
+    } catch (error) {
+      console.log(error);
+    }
 
-    //     setIsPrinting(false);
-    //   }
-    // });
+    setIsPrinting(false);
   };
 
   return (
