@@ -8,6 +8,7 @@ import { title } from 'process'
 import NewsArticleEntry from '@/components/NewsArticleEntry'
 import NewsArticleGrid from '@/components/NewsArticleGrid'
 import { Alert } from 'react-bootstrap'
+import { Br, Cut, Line, Printer, Text, Row, render } from 'react-thermal-printer';
 import PrintButton from '@/components/PrintButton'
 
 interface BreakingNewsPageProps{
@@ -26,6 +27,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 
 export default function BreakingNewsPage({newsArticles}: BreakingNewsPageProps) {
+    
   return (
     <>
     <Head>
@@ -35,8 +37,8 @@ export default function BreakingNewsPage({newsArticles}: BreakingNewsPageProps) 
     </Head>
       <main>
         <h1>Breaking News</h1>
-        <PrintButton/>
         <Alert>All the news collected via API.</Alert>
+        <PrintButton/>
         <NewsArticleGrid articles={newsArticles}/>
       </main>
     </>
