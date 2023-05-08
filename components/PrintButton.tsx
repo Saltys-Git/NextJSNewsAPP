@@ -19,8 +19,8 @@ function PrintButton() {
         console.log(error);
       } else {
         // Convert HTML to plain text
-        const html = '<html><head><title>Test Page</title></head><body><h1>Hello, world!</h1></body></html>';
-        const text = HtmlToText.fromString(html);
+        // const html = '<html><head><title>Test Page</title></head><body><h1>Hello, world!</h1></body></html>';
+        // const text = HtmlToText.fromString(html);
 
         // Set printer font size and alignment
         printerDevice
@@ -28,10 +28,17 @@ function PrintButton() {
             .font('A')
             .style('BU')
             .size(1, 1)
-            .text('Test Page\n\n');
+            .text('Test Page\n\n')
+            .barcode('1234567', 'EAN8')
+            .table(["One", "Two", "Three"])
+            .tableCustom([
+                { text:"Left", align:"LEFT", width:0.33, style: 'B' },
+                { text:"Center", align:"CENTER", width:0.33},
+                { text:"Right", align:"RIGHT", width:0.33 }],
+              { encoding: 'cp857', size: [1, 1] });
 
         // Print plain text content
-        printerDevice.text(text);
+        // printerDevice.text(text);
 
         // Cut paper and close connection
         printerDevice
